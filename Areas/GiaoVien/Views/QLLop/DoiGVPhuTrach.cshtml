@@ -1,0 +1,127 @@
+﻿@model List<QLPreschool.Data.GiaoVien>
+@{
+    ViewData["Title"] = "Đổi giáo viên phụ trách";
+}
+@section Style {
+    <style>
+        .user-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+            .user-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.875rem;
+            border-radius: 0.375rem;
+            position: relative;
+            z-index: 1;
+            background-color: #e6ebee;
+        }
+
+            .page-title .search-area {
+                width: 21.875rem;
+                flex-direction: row-reverse;
+                overflow: hidden;
+                border-radius: 0.375rem;
+                box-sizing: border-box;
+                height: 3rem;
+            }
+
+                .page-title .search-area input:focus {
+                    box-shadow: none !important;
+                }
+
+                .page-title .search-area .input-group-text {
+                    background: #fff;
+                    border: none;
+                    padding-right: 20px;
+                    height: 3rem;
+                    border-radius: 0.375rem 0 0 0.375rem;
+                }
+    </style>
+}
+<h1 class="d-flex align-items-center">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="11" width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect x="11" width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect x="22" width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect x="11" y="11" width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect x="11" y="22" width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect y="11" width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect x="22" y="22" width="4" height="4" rx="2" fill="#2A353A"></rect>
+        <rect y="22" width="4" height="4" rx="2" fill="#2A353A"></rect>
+    </svg>
+    <span class="ms-2">Giáo Viên</span>
+</h1>
+<partial name="_StatusMessage" />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="page-title flex-wrap">
+                <form method="get" class="input-group search-area mb-md-0 mb-3">
+                    <input type="text" value="@ViewBag.Search" class="form-control rounded-0 border-0" placeholder="Tìm kiếm..." name="search">
+                    <button class="input-group-text border-0">
+                        <svg width="15" height="15" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.5605 15.4395L13.7527 11.6317C14.5395 10.446 15 9.02625 15 7.5C15 3.3645 11.6355 0 7.5 0C3.3645 0 0 3.3645 0 7.5C0 11.6355 3.3645 15 7.5 15C9.02625 15 10.446 14.5395 11.6317 13.7527L15.4395 17.5605C16.0245 18.1462 16.9755 18.1462 17.5605 17.5605C18.1462 16.9747 18.1462 16.0252 17.5605 15.4395V15.4395ZM2.25 7.5C2.25 4.605 4.605 2.25 7.5 2.25C10.395 2.25 12.75 4.605 12.75 7.5C12.75 10.395 10.395 12.75 7.5 12.75C4.605 12.75 2.25 10.395 2.25 7.5V7.5Z" fill="#01A3FF"></path>
+                        </svg>
+                    </button>
+                </form>
+                <div>
+
+                    <a class="btn btn-primary" asp-action="AddGV" asp-controller="QLGiaoVien" asp-area="GiaoVien">+ Thêm giáo viên</a>
+                </div>
+            </div>
+        </div>
+        @foreach (var gv in Model)
+        {
+
+            <div class="col-xl-3 col-lg-4 col-sm-6 mt-4">
+                <div class="card contact_list text-center">
+                    <div class="card-body">
+                        <div class="user-content">
+                            <div class="user-info ">
+                                <div class="user-img mx-auto">
+                                    <img src="~/AdminDashboard/img/@gv.AvatarGV" alt="Hinh Anh" class="avatar avatar-xl">
+                                </div>
+                                <div class="user-details mt-3">
+                                    <h4 class="user-name mb-0">@gv.TenGv</h4>
+                                    <p>@gv.ChucVu</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <form asp-action="DoiGVPhuTrach" method="post" asp-route-idLop="@ViewBag.idLop" asp-controller="QLLop" asp-area="GiaoVien" class="d-flex align-items-center justify-content-between w-100 flex-column">
+                            <input value="@gv.MaGv" name="MaGv" hidden/>
+                            <button class="btn btn-primary">Xác nhận</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+        @{
+            var paginationModel = new QLPreschool.Models.Pagination()
+            {
+                countPage = ViewBag.countPages,
+                currentPage = ViewBag.currentPage,
+                generateUrl = (int? p) => $"/GiaoVien/QLLop/DoiGVPhuTrach?idLop={ViewBag.idLop}&pages=" + p
+            };
+        }
+        <div class="d-flex align-items-center justify-content-center mt-4">
+            <partial model="paginationModel" name="_Pagination" />
+
+        </div>
+    </div>
+</div>

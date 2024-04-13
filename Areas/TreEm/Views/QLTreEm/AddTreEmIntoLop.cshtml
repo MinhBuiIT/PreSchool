@@ -1,0 +1,44 @@
+﻿@model List<QLPreschool.ModelViews.LopMV>
+@{
+    ViewData["Title"] = "Thêm trẻ em vào lớp";
+}
+<h2 class="text-capitalize">Danh sách @ViewBag.TenLoaiLop</h2>
+<a asp-action="DetailTreEm" asp-route-idTreEm="@ViewBag.idTreEm">Quay về</a>
+<table class="table table-hover">
+    <thead>
+        <th>Mã Lớp</th>
+        <th>Tên Lớp</th>
+        <th>Sỉ số</th>
+        <th>Còn lại</th>
+        <th>Học kỳ</th>
+         <th>Năm học</th>
+        <th></th>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.MaLop</td>
+                <td>@item.TenLop</td>
+                <td>@item.SiSo</td>
+                <td>@item.ConLai</td>
+                <td>@item.hocKy</td>
+                <td>@item.NamHoc</td>
+                <td>
+                    @if(item.ConLai > 0)
+                    {
+                        <form asp-route-idTreEm="@ViewBag.idTreEm " asp-action="AddTreEmIntoLop" asp-controller="QLTreEm" asp-area="TreEm" method="post">
+                            <input value="@item.MaLop" name="LopAddInto" hidden />
+                            <input value="@item.hocKy" name="hocky" hidden />
+                            <button type="submit" class="border-0 bg-transparent text-primary">Thêm</button>
+                        </form>
+                    }else
+                    {
+                        <span class="fst-italic text-secondary">Lớp đã đầy</span>
+                    }
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

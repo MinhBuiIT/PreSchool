@@ -1,0 +1,30 @@
+﻿@model List<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Danh sách Role";
+}
+<h1>@ViewData["Title"]</h1>
+<partial name="_StatusMessage"  />
+
+<a asp-action="CreateRole" asp-controller="QLRole" asp-area="Authorization" class="btn btn-primary">Tạo Role mới</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Tên Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>
+                    <p>@role.Name</p>
+                </td>
+                <td>
+                    <a asp-action="EditRole" asp-controller="QLRole" asp-area="Authorization"  asp-route-roleid="@role.Id" class="btn btn-primary btn-sm">Cập nhật</a>
+                    <a asp-action="DeleteRole" asp-controller="QLRole" asp-area="Authorization" asp-route-roleid="@role.Id" class="btn btn-primary btn-sm">Xóa</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>

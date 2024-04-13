@@ -1,0 +1,58 @@
+﻿@model List<QLPreschool.Data.GiaoVien>
+@* @using X.PagedList; *@
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Danh sách giáo viên";
+}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1 class="mb-3">Giáo viên</h1>
+            <p>Giáo viên tại Kider đều là các giáo viên có nghiệp vụ sư phạm cao, thân thiện, hòa nhã, có đạo đức nghề nghiệp tốt</p>
+        </div>
+        <div class="row g-4">
+
+            @foreach (var gv in Model)
+            {
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="classes-item">
+                        <div class="bg-light rounded-circle mx-auto p-3" style="width: 300px; height:300px; overflow: hidden">
+                            <img class="w-100 h-100 rounded-circle" style="object-fit: cover" src="~/AdminDashboard/img/@gv.AvatarGV" alt="Hinh">
+                        </div>
+                        <div class="bg-light rounded p-4 pt-5 mt-n5">
+                            <a class="d-block text-center h3 mt-3 mb-4" href="">@gv.TenGv</a>
+                           
+                            <div class="row g-1">
+                                <div class="col-6">
+                                    <div class="border-top border-3 border-primary pt-2">
+                                        <h6 class="text-primary mb-1">Mã giáo viên</h6>
+                                        <small>@gv.MaGv</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="border-top border-3 border-success pt-2">
+                                        <h6 class="text-success mb-1">Chức vụ</h6>
+                                        <small>@gv.ChucVu</small>
+                                    </div>
+                                </div>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @{
+                var paginationModel = new QLPreschool.Models.Pagination()
+            {
+                countPage = ViewBag.countPages,
+                currentPage = ViewBag.currentPage,
+                generateUrl = (int? p) => "/Home/Teachers?pages=" + p
+            };
+            }
+            <div class="d-flex align-items-center justify-content-center">
+                <partial model="paginationModel" name="_Pagination" />
+
+            </div>
+        </div>
+    </div>
+</div>

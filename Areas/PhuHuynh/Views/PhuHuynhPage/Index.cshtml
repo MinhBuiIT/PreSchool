@@ -1,0 +1,183 @@
+﻿@model List<QLPreschool.ModelViews.ChiTietLopGVPHMV>
+@{
+    ViewData["Title"] = "Trang chủ";
+    var TTTreEm = (QLPreschool.Data.TreEm)ViewBag.treEm;
+    var TheTrangHienTai = (List<QLPreschool.Data.PhieuLienLac>)ViewBag.phieuLLTreEm;
+}
+
+<main>
+    <div class="mb-5 overflow-hidden">
+        <div class="row ">
+            <div class="rol-12">
+                <img src="~/PhuHuynhDashboard/img/background.png" width="100%" />
+            </div>
+
+        </div>
+        <div class=" info-te d-flex">
+            <div class="col-8 d-flex justify-content-around" justify-content:space-around">
+                <div class="row ">
+                    <div class="khung">
+                        <img class="avatar-te mt-3 " src="/AdminDashboard/img/TreEm/@TTTreEm.AvatarTE" alt="Alternate Text" />
+
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <label>Tên trẻ em</label>
+                    <h6>@TTTreEm.TenTe</h6>
+                </div>
+                <div class="mt-5">
+                    <label>Giới tính</label>
+                    <h6>
+                        @if (TTTreEm.GioiTinh)
+                        {
+                        <text>Nam </text>
+                        }
+                        else
+                        {
+                        <text>Nữ </text>
+                        }
+                    </h6>
+                </div>
+                <div class="mt-5">
+                    <label>Năm sinh</label>
+                    @{
+                        var day = TTTreEm.NgaySinhTE.Day;
+                        var month = TTTreEm.NgaySinhTE.Month;
+                        var year = TTTreEm.NgaySinhTE.Year;
+                    }
+                    <h6>@day-@month-@year</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mb-5">
+        <div class="d-flex ">
+            <div class="info-class card mb-0" style="margin-right:50px">
+                @foreach(var item in Model)
+                {
+                    <div class="card-body mb-3">
+                        <div class="m-3">
+                            <h3>Thông tin lớp học</h3>
+                        </div>
+                        <div class="container px-3">
+                            <div class="row gx-5">
+                                <div class="col">
+                                    <div class="">
+                                        <h4>Lớp học</h4>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6>Mã lớp: </h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <text> @item.maLop</text>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6>Tên lớp: </h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <text>@item.tenLop</text>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6>Sỉ số: </h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <text>@item.siSo</text>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6>Tên loại: </h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <text>@item.tenLoai</text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="">
+                                        <h4>Phòng học</h4>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h6>Tên phòng: </h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <text>@item.tenPhong</text>
+                                            </div>
+                                        </div>
+                                        <div><br /></div>
+                                        <div><br /></div>
+                                        <div><br /></div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-3">
+                            <h3>Thông tin giáo viên chủ nhiệm</h3>
+                        </div>
+                        <div class="row rounded">
+                            <div class="px-3 mx-3 col-4">
+                                <div style="width: 150px; height: 200px">
+                                    <img src="~/AdminDashboard/img/@item.avatarGV"  class="rounded w-100 h-100" style="object-fit: cover" />
+
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex justify-content-between">
+                                    <h6>Tên giáo viên: </h6>
+                                    <text>@item.tenGiaoVien</text>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <h6>Chức vụ: </h6>
+                                    <text>@item.chucVu</text>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <h6>Số điện thoại:</h6>
+                                    <text>@item.sdt</text>
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                        </div>
+
+
+                    </div>
+                    <hr />
+                }
+                
+            </div>
+            <div class="card mb-0 info-pll">
+                <div class="card-body ">
+                    <div class="">
+                        <h4 class="mt-3 mx-3"> Phiếu liên lạc năm @DateTime.Now.Year</h4>
+                    </div>
+                    @foreach (var item in TheTrangHienTai)
+                    {
+                        <div class="px-3 mb-3">
+                            <div class="d-flex">
+                                <i class="fa-solid fa-calendar-days mx-1"></i>
+                                <h6>
+                                    <i class="bi bi-calendar-heart"></i>
+                                    @item.Thang - @item.Nam
+                                </h6>
+                            </div>
+
+                            <text>@item.LoiNhanXet</text>
+                        </div>
+                    }
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</main>

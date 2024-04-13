@@ -1,0 +1,55 @@
+﻿@model List<QLPreschool.Data.Lop>
+@{
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    ViewData["Title"] = "Danh sách lớp";
+}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1 class="mb-3">Các lớp tại Kider</h1>
+            <p>Trường học thân thiện, học sinh tích cực</p>
+        </div>
+        <div class="row g-4">
+
+            @foreach (var lop in Model)
+            {
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="classes-item" style="margin-top: 50px">
+                    
+                        <div class="bg-light rounded p-4 pt-5 mt-n5">
+                            <a class="d-block text-center h3 mt-3 mb-4" href="">@lop.TenLop</a>
+
+                            <div class="row g-1">
+                                <div class="col-4">
+                                    <div class="border-top border-3 border-primary pt-2">
+                                        <h6 class="text-primary mb-1">Mã lớp</h6>
+                                        <small>@lop.MaLop</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="border-top border-3 border-success pt-2">
+                                        <h6 class="text-success mb-1">Sỉ số</h6>
+                                        <small>@lop.SiSo</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @{
+                var paginationModel = new QLPreschool.Models.Pagination()
+            {
+                countPage = ViewBag.countPages,
+                currentPage = ViewBag.currentPage,
+                generateUrl = (int? p) => "/Home/Classes?pages=" + p
+                };
+            }
+            <div class="d-flex align-items-center justify-content-center">
+                <partial model="paginationModel" name="_Pagination"/>
+
+            </div>
+        </div>
+    </div>
+</div>

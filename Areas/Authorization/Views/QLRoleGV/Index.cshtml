@@ -1,0 +1,59 @@
+﻿@model List<QLPreschool.ModelViews.UserRoleMV>
+@{
+    ViewData["Title"] = "Danh Sách User Giáo Viên";
+    var stt = ViewBag.Stt;
+}
+<h3 class="text-center text-capitalize">@ViewData["Title"]</h3>
+<partial name="_StatusMessage"/>
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Photo</th>
+            <th>Tên Giáo Viên</th>
+            <th>Tên Role</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            ++stt;
+            <tr>
+                <td>@stt</td>
+                <td>
+                    <div style="width:60px;height:60px">
+                        <img src="~/AdminDashboard/img/@item.Avatar" alt="Hinh Anh" class="rounded-circle w-100 h-100" style="object-fit:cover"/>
+
+                    </div>
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.RoleName
+                </td>
+                <td>
+                    <a asp-route-userid="@item.Id" asp-action="AddRoleUser" asp-controller="QLRoleGV" asp-area="Authorization" class="btn btn-primary">Cập Nhật Role</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var paginationModel = new QLPreschool.Models.Pagination()
+            {
+                countPage = ViewBag.countPages,
+                currentPage = ViewBag.currentPage,
+                generateUrl = (int? p) => "/Authorization/QLRoleGV?pages=" + p
+            };  
+}
+<div class="d-flex align-items-center justify-content-center mt-4">
+    <partial model="paginationModel" name="_Pagination" />
+
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

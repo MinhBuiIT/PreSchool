@@ -1,0 +1,37 @@
+﻿@model QLPreschool.Data.MonHoc
+
+@{
+    ViewData["Title"] = "EditSubject";
+}
+
+<h4 class="text-center text-primary" style="margin-bottom:20px">CHỈNH SỬA MÔN HỌC</h4>
+
+<div style="width:40%; margin:auto; padding:4%" class="border border-primary shadow p-3 mb-5 bg-body-tertiary rounded">
+
+    <form asp-action="EditSubject" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="MaMon" />
+        <div class="form-group">
+            <label asp-for="TenMon" class="control-label"></label>
+            <input asp-for="TenMon" class="form-control" />
+            <span asp-validation-for="TenMon" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Loại lớp</label>
+            <select class="form-control" multiple asp-for="MaLoais">
+                @foreach (var loaiLop in ViewBag.LoaiLops)
+                {
+                    <option value="@loaiLop.MaLoai">@loaiLop.TenLoai</option>
+                }
+            </select>
+            <span asp-validation-for="MaLoais" class="text-danger"></span>
+        </div>
+        <div class="form-group " style="margin-top:20px">
+            <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+            <a style="margin-left:20px" asp-action="ListSubjects">Hủy chỉnh sửa môn học</a>
+        </div>
+    </form>
+
+</div>
+
+

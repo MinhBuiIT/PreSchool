@@ -1,0 +1,33 @@
+﻿@model QLPreschool.Data.MonHoc
+
+@{
+    ViewData["Title"] = "DeleteSubject";
+}
+
+
+<h3 class="text-center">BẠN MUỐN XÓA MÔN HỌC NÀY?</h3>
+<div style="width:30%;margin:auto;">
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6">
+            Mã môn
+        </dt>
+        <dd class="col-sm-6">
+            @Html.DisplayFor(model => model.MaMon)
+        </dd>
+        <dt class="col-sm-6">
+            Tên Môn
+        </dt>
+
+        <dd class="col-sm-6">
+            @Html.DisplayFor(model => model.TenMon)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteSubject">
+        <input type="hidden" asp-for="MaMon" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a style="margin-left:20px" asp-action="ListSubjects">Hủy xóa môn học</a>
+    </form>
+
+</div>

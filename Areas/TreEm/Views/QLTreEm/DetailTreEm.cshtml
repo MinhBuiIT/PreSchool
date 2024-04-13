@@ -1,0 +1,160 @@
+﻿@model QLPreschool.Data.TreEm
+@{
+    ViewData["Title"] = "Chi tiết trẻ em";
+    var namGlobal = 0;
+}
+
+
+@section Style {
+    <style>
+        .imgTE {
+            width: 230px;
+            height: 300px;
+        }
+    </style>
+}
+<partial name="_StatusMessage"/>
+<div class="container text-center">
+    <div class="row align-items-center">
+        @* Thong tin tre em *@
+        <h3 class="text-center" style="margin-bottom:20px;color:darkblue;">THÔNG TIN TRẺ EM</h3>
+        <div class="col-3">
+            <img src="~/AdminDashboard/img/TreEm/@Model.AvatarTE" class="imgTE">    
+        </div>
+        <div class="col-9">
+            <table class="table table-bordered border-primary">
+                <tbody>
+                    <tr > 
+                        <td>Mã trẻ em</td>
+                        <td>@Model.MaTe</td>       
+                    </tr>
+                    <tr>
+                        <td>Tên trẻ em</td>
+                        <td>@Model.TenTe</td>
+                    </tr>
+                    <tr >         
+                        <td>Giới tính</td>
+                        <td>@{var gt = Model.GioiTinh ? "Nam" : "Nữ";} @gt</td>
+                    </tr>
+                    <tr >
+                        <td>Ngày sinh</td>
+                        @{
+                            var day = Model.NgaySinhTE.Day;
+                            var month = Model.NgaySinhTE.Month;
+                            var year = Model.NgaySinhTE.Year;
+                        }
+                        
+                        <td>@day/@month/@year</td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <a asp-action="EditTreEm" asp-controller="QLTreEm" asp-area="TreEm" asp-route-idTreEm="@Model.MaTe">Sửa thông tin</a>
+            <span>|</span>
+            <a asp-action="DeleteTreEm" asp-controller="QLTreEm" asp-area="TreEm" asp-route-idTreEm="@Model.MaTe" class="text-primary">Xóa trẻ em</a>
+            <span>|</span>
+            <a asp-action="Index" asp-controller="QLTreEm" asp-area="TreEm"  class="text-primary">Quay về</a>
+        </div>
+    </div>
+
+    <div style="height: 3px; width:100%; background-color:darkblue;margin-bottom:50px;margin-top:20px;"></div>
+
+    <div class="row align-items-start" style="margin-bottom:20px" >
+        <div class="col-6">
+            <h4 class="text-center" style="margin-bottom:20px;color:darkblue;">THÔNG TIN PHỤ HUYNH</h4>
+            <table class="table">
+                <tbody style="text-align:left">
+                    @{
+                        var phuHuynh = (QLPreschool.Data.PhuHuynh)ViewBag.phuHuynh;
+                    }
+                    <tr class="table-primary">
+                        <td>Mã phụ huynh</td>
+                        <td>@phuHuynh.MaPh</td>
+                    </tr>
+                    <tr >
+                        <td>Tên phụ huynh</td>
+                        <td>@phuHuynh.TenPh</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td>Số điện thoại</td>
+                        <td>@phuHuynh.SdtPhuhuynh</td>
+                    </tr>
+                    <tr>
+                        <td>Địa chỉ</td>
+                        <td>@phuHuynh.DiaChiPh</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td>Giới tính</td>
+                        <td>@{
+                                var gtph = phuHuynh.GioiTinh ? "Nam" : "Nữ";
+                            } @gtph
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ngày sinh</td>
+                        @{
+                            var dayph = phuHuynh.NgaySinh.Day;
+                            var monthph = phuHuynh.NgaySinh.Month;
+                            var yearph = phuHuynh.NgaySinh.Year;
+                        }
+                        <td>@dayph/@monthph/@yearph</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+<h4 class="text-center" style="margin-bottom:20px;color:darkblue;">THÔNG TIN LỚP HỌC</h4>
+            @{
+                var dsLop = (List<QLPreschool.Data.Lop>)ViewBag.DsLop;
+            }
+            @if(dsLop.Count > 0)
+            {
+                foreach (var lop in dsLop)
+                {
+                    <table class="table mb-5">
+                        <tbody style="text-align:left">
+                            <tr class="table-primary">
+                                <td>Mã lớp</td>
+                                <td>@lop.MaLop</td>
+                            </tr>
+                            <tr class="table-primary">
+                                <td>Tên lớp</td>
+                                <td>@lop.TenLop</td>
+                            </tr>
+                            <tr>
+                                <td>Sỉ số lớp</td>
+                                <td>@lop.SiSo</td>
+                            </tr>
+                            <tr>
+                                <td>Học kỳ - Năm Học</td>
+                                @{
+                                    var hkNamHoc = ViewBag.hkNam;
+                                    var nam = 0;
+                                    var hk = 0;
+                                    foreach (var item in hkNamHoc)
+                                    {
+                                        if (item.idLop == lop.MaLop)
+                                        {
+                                            nam = item.NamHoc;
+                                            hk = item.HocKy;
+                                        }
+                                    }
+                                    
+                                }
+                                <td>@hk - @nam</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            }else
+            {
+                <p class="fst-italic text-secondary">Chưa có lớp học</p>
+            }
+            
+            <a asp-action="AddTreEmIntoLop" asp-controller="QLTreEm" asp-area="TreEm" asp-route-idTreEm="@Model.MaTe"
+               >Thêm trẻ em vào lớp</a>
+
+        </div>
+    </div>
+</div>

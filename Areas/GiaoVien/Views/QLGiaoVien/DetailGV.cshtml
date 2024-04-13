@@ -1,0 +1,119 @@
+﻿@model List<QLPreschool.ModelViews.GiangDayGVMV>
+@using QLPreschool.ModelViews
+@{
+    ViewData["Title"] = "Chi tiết giáo viên";
+    var gvDetail = ViewBag.GvDetail as QLPreschool.Data.GiaoVien;
+}
+@section Style{
+    <style>
+        .img-rounded {
+            border-radius: 50%;
+            object-fit: cover;
+            width: 15rem;
+            height: 15rem;
+        }
+
+        .icon {
+            padding: 7px 12px;
+            color: #646464;
+            background-color: #f0f1f3;
+            font-size: 18px;
+            border-radius: 4px;
+        }
+
+        .icon:hover {
+            background-color: #FE5D37;
+            color: #fff;
+        }
+    </style>
+}
+@{
+    var modalData = new ModalDataMV()
+            {
+                idModal = "DeleteTeacher",
+                titleModal = "Xóa giáo viên",
+                descriptionModal = "Bạn chắc chắn muốn xóa giáo viên này?",
+                action = "DeleteGV",
+                controller = "QLGiaoVien",
+                area = "GiaoVien",
+                param = ViewBag.idGv
+            };
+}
+<partial name="_Modal" model="@modalData" />
+<div class="container-fluid pt-4 px-4">
+    <div class="row">
+        <div class="col-8">
+            <h6 >GIÁO VIÊN</h6>
+            <h1>@gvDetail.TenGv</h1>
+            <div class="d-flex gap-4 align-items-center">
+                <div>@gvDetail.ChucVu</div>
+                <div>SDT: @gvDetail.SdtGv</div>
+                @{
+                    var gender = gvDetail.GioiTinh ? "Nam" : "Nữ";
+                }
+                <div>Giới tính: @gender</div>
+            </div>
+            <div class="mt-2">
+                Email: @ViewBag.Email
+            </div>
+            <div class="mt-2">
+                Địa chỉ: @gvDetail.DiaChi
+            </div>
+            <div class="mt-4">
+                <a asp-action="EditGV" asp-route-idGv="@gvDetail.MaGv" asp-area="GiaoVien" asp-controller="QLGiaoVien" class="icon icon-edit"><i class="far fa-edit"></i></a>
+                <button class="icon icon-remove border-0" type="button" data-bs-toggle="modal" data-bs-target="#DeleteTeacher"><i class="bi bi-trash"></i></button>
+                
+            </div>
+        </div>
+        <div class="col-4">
+            @{
+                var imgName = String.IsNullOrEmpty(gvDetail.AvatarGV) ? "defaultUser.jpg" : gvDetail.AvatarGV;
+            }
+            <img src="~/AdminDashboard/img/@imgName" alt="Avatar" class="img-rounded" />
+        </div>
+    </div>
+</div>
+<h2>Các lớp quản lý</h2>
+<div class="container-fluid">
+    <a asp-action="AddClassGV" asp-route-idGv="@gvDetail.MaGv" asp-controller="QLGiaoVien" asp-area="GiaoVien" class="my-3">Thêm lớp phụ trách</a>
+    <span class="mx-1">|</span>
+    <a asp-action="Index" asp-controller="QLGiaoVien" asp-area="GiaoVien" class="my-3 ">Quay về</a>
+
+    @if(Model.Count > 0)
+    {
+        <table class="table table-bordered border-primary">
+            <thead>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Lớp</th>
+                    <th scope="col">Sỉ số</th>
+                    <th scope="col">Phòng Học</th>
+                    <th scope="col">Học kỳ</th>
+                    <th scope="col">Năm học</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@(++i)</th>
+                        <td>@item.tenLop</td>
+                        <td>@item.si_so</td>
+                        <td>@item.TenPhong</td>
+                        <td>@item.hocKi</td>
+                        <td>@item.namHoc</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    }else
+    {
+        <p class="text-center text-secondary fst-italic">Chưa có lớp phụ trách</p>
+    }
+
+</div>

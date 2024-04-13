@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using QLPreschool.Models
+@inject SignInManager<AppUser> signInManager
+@inject UserManager<AppUser> userManager
+@inject QLPreschool.Data.QlTMnContext context
+
+<div class="navbar-nav">
+    @if (signInManager.IsSignedIn(User))
+    {
+        var maGV = userManager.Users.Where(u => u.Id == userManager.GetUserId(User)).FirstOrDefault().maGV;
+        var gvLogin = context.GiaoViens.Where(gv => gv.MaGv == maGV).FirstOrDefault();
+        <div class="navbar-nav align-items-center ms-auto">
+
+
+            <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+                    <div style="width: 40px; height: 40px;">
+                        <img class="rounded-circle me-lg-2 w-100 h-100" style="object-fit: cover" src="~/AdminDashboard/img/@gvLogin.AvatarGV" alt="Hinh anh">
+
+                    </div>
+                    <span class="d-none d-lg-inline-flex">@userManager.GetUserName(User)</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                    <a asp-action="LogoutGV" asp-controller="GVAuth" asp-area="Authentication" class="dropdown-item">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Nothing</p>
+    }
+
+</div>

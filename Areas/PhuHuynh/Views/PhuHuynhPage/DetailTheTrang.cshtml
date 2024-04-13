@@ -1,0 +1,94 @@
+﻿@model List<QLPreschool.Data.TheTrang>
+@{
+    ViewData["Title"] = "Chi tiết thể trạng";
+    var TTTreEm = ViewBag.TTTreEm;
+}
+@section Style {
+    <style>
+        .tt-header {
+            background: #8198f9;
+            max-width: 75%;
+            padding: 8px 0;
+            color: #fff;
+            text-align: center;
+        }
+
+            .tt-header.tt-body {
+                background: #ffe69b;
+                color: #000;
+            }
+    </style>
+}
+<h3 class="text-center text-capitalize">Chi tiết thể trạng</h3>
+<partial name="_StatusMessage" />
+<div class="px-4 py-3 border-1 border-secondary border container mt-5">
+    <div class="row">
+
+        <div class="col-6 text-center">
+            Mã Bé: <span class="ms-3">@TTTreEm.MaTe</span>
+        </div>
+        <div class="col-6 text-center">
+            Tên Bé: <span class="ms-3">@TTTreEm.TenTe</span>
+        </div>
+        <div class="col-6 text-center mt-3 text-center">
+            @{
+                var gt = @TTTreEm.GioiTinh ? "Nam" : "Nữ";
+            }
+            Giới Tính: <span class="ms-3">@gt</span>
+        </div>
+        <div class="col-6 mt-3 text-center">
+            @{
+                var day = TTTreEm.NgaySinhTE.Day;
+                var month = TTTreEm.NgaySinhTE.Month;
+                var year = TTTreEm.NgaySinhTE.Year;
+            }
+            Ngày sinh: <span class="ms-3">@day/@month/@year</span>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="border border-1 border-secondary pb-5">
+    <h3 class="text-center text-capitalize mt-5">Bảng thông tin thể trạng</h3>
+    <form id="filterNamTT" class="w-25 mx-auto mb-5">
+        <input value="@TTTreEm.MaTe" name="idTreEm" hidden />
+        @Html.DropDownList("Nam", ViewBag.Nam as SelectList, "Chọn Năm", new
+            {
+                @class = "form-select selectNamTT",
+            })
+    </form>
+    <div class="container mt-4 ">
+        <div class="row gap-5 justify-content-center">
+            <div class="col-3 tt-header">
+                Tháng
+            </div>
+            <div class="col-3 tt-header">
+                Chiều Cao
+            </div>
+            <div class="col-3 tt-header">
+                Cân Nặng
+            </div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="row gap-5 justify-content-center mt-3">
+                <div class="col-3 tt-header tt-body">
+                    @item.Thang
+                </div>
+                <div class="col-3 tt-header tt-body">
+                    @item.ChieuCao
+                </div>
+                <div class="col-3 tt-header tt-body">
+                    @item.CanNang
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        var selectNamTT = document.querySelector(".selectNamTT");
+        selectNamTT.addEventListener("change", () => {
+            document.querySelector("#filterNamTT").submit();
+        })
+    </script>
+}

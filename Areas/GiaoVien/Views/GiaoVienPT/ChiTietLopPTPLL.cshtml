@@ -1,0 +1,61 @@
+﻿@model List<QLPreschool.ModelViews.TTTreEmMV>
+@{
+    ViewData["Title"] = "Chi tiết lớp phụ trách";
+    var stt = 0;
+}
+@section Style {
+    <style>
+        td, th {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+}
+<h3 class="text-center text-capitalize">Danh sách trẻ em trong lớp</h3>
+<table class="table">
+    <thead class="table-primary">
+    <th>STT</th>
+    <th>Photo</th>
+    <th>Tên</th>
+    <th>Giới Tính</th>
+    <th>Ngày Sinh</th>
+    <th>Phụ Huynh</th>
+    <th></th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            ++stt;
+            <tr class="align-items-center">
+                <td>@stt</td>
+                <td>
+                    <img src="~/AdminDashboard/img/TreEm/@item.Photo" alt="Hinh Anh" width="50" class="rounded-circle" />
+                </td>
+                <td>
+                    @item.TenTe
+                </td>
+                <td>
+                    @{
+                        var gt = item.GioiTinh ? "Nam" : "Nữ";
+                    }
+                    @gt
+                </td>
+                <td>
+                    @{
+                        var day = item.NgaySinhTE.Day;
+                        var month = item.NgaySinhTE.Month;
+                        var year = item.NgaySinhTE.Year;
+                    }
+                    @day - @month - @year
+                </td>
+                <td>
+                    @item.TenPh
+                </td>
+                <th>
+                    <a asp-action="PhieuLienLacTreEm" asp-controller="GiaoVienPT" asp-area="GiaoVien" asp-route-idTreEm="@item.MaTe">Xem phiếu liên lạc</a>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="ThongTinLopPLL"> <-Quay Về </a>

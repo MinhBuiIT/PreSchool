@@ -1,0 +1,80 @@
+﻿@model List<QLPreschool.ModelViews.ChiTietLopMV>
+@{
+    ViewData["Title"] = "Thông tin lớp phụ trách";
+    var TTGiaoVien = (QLPreschool.Data.GiaoVien)ViewBag.TTGiaoVien;
+}
+@section Style {
+    <style>
+        .img-rounded {
+            border-radius: 50%;
+            object-fit: cover;
+            width: 15rem;
+            height: 15rem;
+        }
+    </style>
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <img src="~/AdminDashboard/img/@TTGiaoVien.AvatarGV" alt="Avatar" class="img-rounded" />
+            <h5 class="mt-3">Giáo viên: @TTGiaoVien.TenGv</h5>
+            @{
+                var gt = TTGiaoVien.GioiTinh ? "Nam" : "Nữ";
+            }
+            <h6>Giới tính: @gt</h6>
+            <h6>Địa chỉ: @TTGiaoVien.DiaChi</h6>
+        </div>
+        <div class="col-8">
+            <h3>Thông tin lớp phụ trách năm @DateTime.Now.Year</h3>
+            @foreach (var lop in Model)
+            {
+                <table class="table mt-5">
+                    <tbody style="text-align:left">
+                        <tr class="table-primary">
+                            <td>Mã lớp</td>
+                            <td>@lop.MaLop</td>
+                        </tr>
+                        <tr>
+                            <td>Tên lớp</td>
+                            <td>@lop.TenLop</td>
+                        </tr>
+                        <tr class="table-primary">
+                            <td>Sỉ số lớp</td>
+                            <td>@lop.SiSo</td>
+                        </tr>
+                        <tr>
+                            <td>Học kỳ - Năm Học</td>
+
+                            <td>@lop.hocKy - @lop.NamHoc</td>
+                        </tr>
+                        <tr class="table-primary">
+                            <td>Loại Lớp</td>
+
+                            <td>@lop.TenLoaiLop</td>
+                        </tr>
+                    </tbody>
+                </table>
+                @if (lop.hocKy == 1 && DateTime.Now.Month >= 1 && DateTime.Now.Month <= 6)
+                {
+                    <p class="text-center text-info">
+                        <a asp-area="GiaoVien" asp-action="ChiTietLopPTPLL" asp-controller="GiaoVienPT"
+                           asp-route-idLop="@lop.MaLop">Xem chi tiết</a>
+                    </p>
+                }
+                else if (lop.hocKy == 2 && DateTime.Now.Month >= 7 && DateTime.Now.Month <= 12)
+                {
+                    <p class="text-center text-info">
+                        <a asp-area="GiaoVien" asp-action="ChiTietLopPT" asp-controller="GiaoVienPT"
+                           asp-route-idLop="@lop.MaLop">Xem chi tiết</a>
+                    </p>
+                }
+                else
+                {
+                    <p class="text-center text-secondary fst-italic">Chưa đến học kỳ này</p>
+                }
+                <hr />
+            }
+        </div>
+    </div>
+
+</div>
